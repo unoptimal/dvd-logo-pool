@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="description" content="DVD Logo Pool">
+        <meta name="keywords" content="DVD logo, pool game, billiards, web game, unoptimal">
+        <meta name="author" content="unoptimal">
+        <meta name="robots" content="index, follow">
+
+        <link rel="icon" type="image/png" href="DVD_logo.png" />
+        
+        <meta property="og:title" content="DVD Logo Pool">
+        <meta property="og:description" content="Pool, but with DVD logos instead of billiard balls.">
+        <meta property="og:image" content="https://unoptimal.github.io/dvd-logo-pool/game-image.png">
+        <meta property="og:url" content="https://unoptimal.github.io/dvd-logo-pool/">
+        <meta property="og:type" content="website">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="DVD Logo Pool">
+        <meta name="twitter:description" content="Pool, but with DVD logos instead of billiard balls.">
+        <meta name="twitter:image" content="https://unoptimal.github.io/dvd-logo-pool/thumbnail.png">
+
+    <title>DVD Logo Pool</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            margin: 0;
+            background-color: #2a5d2a;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            max-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10;
+        }
+        #description {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            text-align: center;
+            max-width: 600px;
+        }
+        #main {
+            width: 100%;
+            height: calc(100% - 100px);
+            max-width: 600px;
+            max-height: 1000px;
+            border: 20px solid #4a2b0f;
+            background-color: #45803c;
+            border-radius: 20px;
+            box-sizing: border-box;
+        }
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .control-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .control-button:hover {
+            background-color: #45a049;
+        }
+        a {
+            color: #16b7ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>DVD Logo Pool</h1>
+        <!-- <p id="description">This is a game of pool, but with the billiard balls replaced by DVD logos. And instead of playing against someone, you just break the cue ball 
+            and then wait for the logos to hit the corners. Made by <a href="https://unoptimal.com/" id="link" target="_blank">unoptimal</a>.</p> -->
+        <canvas id="main"></canvas>
+        <div id="controls">
+            <button id="break-button" class="control-button">Break</button>
+            <button id="physics-button" class="control-button">Physics: Realistic</button>
+            <div id="speed-controls">
+                <button id="speed-decrease" class="control-button">-</button>
+                <span id="speed-display" class="control-button">Speed: 1x</span>
+                <button id="speed-increase" class="control-button">+</button>
+            </div>
+            <button id="trails-button" class="control-button">Trails: Off</button>
+            <button id="restart-button" class="control-button">Restart</button>
+        </div>
+    </div>
+    <script>
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        function setCanvasSize() {
+            const canvas = document.getElementById('main');
+            const container = document.getElementById('game-container');
+            if (window.innerWidth <= 768) {
+                canvas.width = 600;
+                canvas.height = 1000;
+            } else {
+                canvas.width = 1000;
+                canvas.height = 600;
+            }
+        }
+
+        function initGame() {
+            setCanvasSize();
+            if (window.innerWidth <= 768) {
+                loadScript('vertical.js');
+            } else {
+                loadScript('horizontal.js');
+            }
+        }
+
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
