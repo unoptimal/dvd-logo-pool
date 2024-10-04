@@ -79,9 +79,14 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: opacity 0.3s, background-color 0.3s;
         }
         .control-button:hover {
             background-color: #45a049;
+        }
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         a {
             color: #16b7ff;

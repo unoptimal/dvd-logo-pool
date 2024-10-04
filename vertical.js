@@ -352,9 +352,17 @@
     function updateSpeedDisplay() {
         document.getElementById('speed-display').textContent = `Speed: ${speedValues[currentSpeedIndex]}x`;
     }
+    
+    function updateSpeedControlsState() {
+        const speedControls = ['speed-increase', 'speed-decrease', 'speed-display'];
+        speedControls.forEach(id => {
+            const element = document.getElementById(id);
+            element.disabled = !isMoving;
+        });
+    }
 
     document.getElementById('speed-increase').addEventListener('click', () => {
-        if (currentSpeedIndex < speedValues.length - 1) {
+        if (isMoving && currentSpeedIndex < speedValues.length - 1) {
             currentSpeedIndex++;
             speedMultiplier = speedValues[currentSpeedIndex];
             updateSpeedDisplay();
@@ -362,7 +370,7 @@
     });
 
     document.getElementById('speed-decrease').addEventListener('click', () => {
-        if (currentSpeedIndex > 0) {
+        if (isMoving && currentSpeedIndex > 0) {
             currentSpeedIndex--;
             speedMultiplier = speedValues[currentSpeedIndex];
             updateSpeedDisplay();
@@ -412,6 +420,7 @@
         currentSpeedIndex = speedValues.indexOf(1);
         speedMultiplier = 1;
         updateSpeedDisplay();
+        updateSpeedControlsState();
     }
 
 
@@ -454,11 +463,15 @@
             } else if (progress < 1) {
                 const forwardProgress = (progress - 0.5) * 2;
                 cueStick.y = initialCueStickY + drawBackDistance - forwardProgress * strikeDistance;
-                                                        
+
+                isMoving = true;
+                updateSpeedControlsState();
+             
             } else {
                 shootCueBall();
                 breakInProgress = false;
                 isMoving = true;
+                updateSpeedControlsState();
             }
 
             cueStick.length = originalLength; 
